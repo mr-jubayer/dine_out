@@ -1,29 +1,67 @@
-function OrderReports() {
+import { useState } from "react";
+import FilterIcon from "../ui/icons/FilterIcon";
+
+function OrderReports({ placedOrders, setPlacedOrder }) {
+  let [status, setStatus] = useState("all");
+
+  const filteredPlacedOrders = () => {
+    let filteredOrders = placedOrders;
+    if (status === "pending") {
+      filteredOrders = placedOrders.filter(
+        (order) => order.status === "PENDING"
+      );
+    } else if (status === "delivered") {
+      filteredOrders = placedOrders.filter(
+        (order) => order.status === "DELIVERED"
+      );
+    }
+
+    return filteredOrders;
+  };
+
+  const handleDeliver = (deliveredOrderId) => {
+    let updateOrders = placedOrders.map((order) => {
+      if (order.id === deliveredOrderId) {
+        return { ...order, status: "DELIVERED" };
+      } else {
+        return order;
+      }
+    });
+
+    setPlacedOrder(updateOrders);
+  };
+
+  const handleDeleteReport = (orderReportId) => {
+    let updateOrders = placedOrders.filter((order) => {
+      if (order.id === orderReportId) {
+        return;
+      } else {
+        return order;
+      }
+    });
+
+    setPlacedOrder(updateOrders);
+  };
+
+  const tableBody = !placedOrders.length ? (
+    <h2 className="py-10 ">Empty Order Report</h2>
+  ) : (
+    <tbody className="text-sm">
+      {filteredPlacedOrders().map((order) => (
+        <Report
+          key={order.id}
+          orderInfo={order}
+          handleDeliver={handleDeliver}
+          handleDeleteReport={handleDeleteReport}
+        />
+      ))}
+    </tbody>
+  );
   return (
     <div>
       <div className="flex justify-between">
         <h2 className="text-xl font-bold mb-4">Order Reports</h2>
-        <div className="flex gap-4 items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={18}
-            height={18}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-funnel-icon lucide-funnel"
-          >
-            <path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z" />
-          </svg>
-          <select className="appearance-none bg-zinc-900 accent-orange-600 border-none outline-none rounded-sm">
-            <option>All</option>
-            <option>Pending</option>
-            <option>Delivered</option>
-          </select>
-        </div>
+        <FilterReports status={status} setStatus={setStatus} />
       </div>
       <div className="bg-cardbg rounded-lg p-4">
         <div className="reports-container">
@@ -38,41 +76,7 @@ function OrderReports() {
                 <th className="pb-3 font-medium">Action</th>
               </tr>
             </thead>
-            <tbody className="text-sm">
-              {/* Row 1 */}
-              <tr className="border-t border-gray-700">
-                <td className="py-3">21</td>
-                <td className="py-3">Sumit Saha</td>
-                <td className="py-3">5</td>
-                <td className="py-3">123123</td>
-                <td className="py-3">
-                  <span className="text-red-500">PENDING</span>
-                </td>
-                <td className="py-3">
-                  <button className="bg-gray-800 hover:bg-red-600 text-xs px-3 py-1 rounded-full mr-1 transition-colors duration-300">
-                    Delete
-                  </button>
-                  <button className="bg-gray-800 hover:bg-green-600 text-xs px-3 py-1 rounded-full transition-colors duration-300">
-                    DELIVER
-                  </button>
-                </td>
-              </tr>
-              {/* Row 2 */}
-              <tr className="border-t border-gray-700">
-                <td className="py-3">21</td>
-                <td className="py-3">Akash Ahmed</td>
-                <td className="py-3">5</td>
-                <td className="py-3">123123</td>
-                <td className="py-3">
-                  <span className="text-green-500">DELIVERED</span>
-                </td>
-                <td className="py-3">
-                  <button className="bg-gray-800 hover:bg-red-600 text-xs px-3 py-1 rounded-full mr-1 transition-colors duration-300">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+            {tableBody}
           </table>
         </div>
       </div>
@@ -80,3 +84,54 @@ function OrderReports() {
   );
 }
 export default OrderReports;
+
+function FilterReports({ status, setStatus }) {
+  return (
+    <div className="flex gap-4 items-center">
+      <FilterIcon />
+      <select
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
+        className="appearance-none bg-zinc-900 accent-orange-600 border-none outline-none rounded-sm"
+      >
+        <option value="all">All</option>
+        <option value="pending">Pending</option>
+        <option value="delivered">Delivered</option>
+      </select>
+    </div>
+  );
+}
+
+function Report({ orderInfo, handleDeliver, handleDeleteReport }) {
+  return (
+    <tr className="border-t border-gray-700">
+      <td className="py-3">{orderInfo.id}</td>
+      <td className="py-3">{orderInfo.customerName}</td>
+      <td className="py-3">{orderInfo.items}</td>
+      <td className="py-3">{orderInfo.amount}</td>
+      <td className="py-3">
+        {orderInfo.status === "PENDING" ? (
+          <span className="text-red-500">PENDING</span>
+        ) : (
+          <span className="text-green-500">DELIVERED</span>
+        )}
+      </td>
+      <td className="py-3">
+        <button
+          onClick={() => handleDeleteReport(orderInfo.id)}
+          className="bg-gray-800 hover:bg-red-600 text-xs px-3 py-1 rounded-full mr-1 transition-colors duration-300"
+        >
+          Delete
+        </button>
+        {orderInfo.status !== "DELIVERED" ? (
+          <button
+            onClick={() => handleDeliver(orderInfo.id)}
+            className="bg-gray-800 hover:bg-green-600 text-xs px-3 py-1 rounded-full transition-colors duration-300"
+          >
+            DELIVER
+          </button>
+        ) : null}
+      </td>
+    </tr>
+  );
+}

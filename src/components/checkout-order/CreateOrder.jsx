@@ -26,10 +26,16 @@ function CreateOrder({ setPlacedOrder }) {
       return;
     }
 
+    if (!choosedItem.length) {
+      alert("Please choose an item and try again.");
+      return;
+    }
+
     let placeOrders = {
       id: crypto.randomUUID().slice(0, 3),
       customerName,
       items: choosedItem.length,
+      amount: totalPrice,
       status: "PENDING",
     };
 

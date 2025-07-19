@@ -5,14 +5,14 @@
 1. Install React & tailwindCSS - done
 2. Header - Done
    **main**
-3. Sidebar ( Create Order ) -
+3. Sidebar ( Create Order ) - done
 
-- Input Field ( Customer Name )
-- Items to choose
-- OnClick the Plus(+) btn increase the Amount in "Place Order" btn
-- OnClick the Minus(-) btn decrees the Amount in "Place Order" btn
-- OnClick the "Place Item"
-  - Update by 1 or the summery Total Order and Pending Order with all information
+- Input Field ( Customer Name ) - done
+- Items to choose - done
+- OnClick the Plus(+) btn increase the Amount in "Place Order" btn - done
+- OnClick the Minus(-) btn decrees the Amount in "Place Order" btn - done
+- OnClick the "Place Item" - done
+  - Update by 1 or the summery Total Order and Pending Order with all information - done
 
 4. Order Summery -
 
