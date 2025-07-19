@@ -1,12 +1,26 @@
-# React + Vite
+# Dine Out
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Todo: (Features)
 
-Currently, two official plugins are available:
+1. Install React & tailwindCSS - done
+2. Header -
+   **main**
+3. Sidebar ( Create Order ) -
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Input Field ( Customer Name )
+- Items to choose
+- OnClick the Plus(+) btn increase the Amount in "Place Order" btn
+- OnClick the Minus(-) btn decrees the Amount in "Place Order" btn
+- OnClick the "Place Item"
+  - Update by 1 or the summery Total Order and Pending Order with all information
 
-## Expanding the ESLint configuration
+4. Order Summery -
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Show total, Pending and Delivered Order
+
+5. Order Reports -
+
+- Show all order reports with order information and actions btns ( Delete and Delivered )
+- OnClick the delivered Btn decrees 1 from Pending and Increase 1 On Delivered
+- OnClick the delete btn Remove Report and Update Summery
+- Filter By Status
